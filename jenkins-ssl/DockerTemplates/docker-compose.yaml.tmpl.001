@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  jenkins-ssl:
+    image: {{ setting.source_image }}
+    container_name: jenkins-ssl
+    ports:
+      - "{{ setting.https_port }}:{{ setting.https_port }}"
+      - "50000:50000"
+    restart: unless-stopped

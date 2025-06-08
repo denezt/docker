@@ -193,5 +193,11 @@ cython_debug/
 .cursorignore
 .cursorindexingignore
 
+## Locally generated files and directories
+*.crt
+*.key
+ssl/**
+gensrc/**
+
 ## Local script and data
 tmp/**

@@ -1,0 +1,22 @@
+FROM jenkins/jenkins:lts-jdk17
+
+USER root
+
+# Install nginx and upgrade all packages to reduce vulnerabilities
+RUN apt-get update && \
+	apt-get install -y nginx && \
+	apt-get upgrade -y && \
+	apt-get clean && \
+	rm -rf /var/lib/apt/lists/*
+
+# Copy SSL certs and nginx config
+COPY ssl/jenkins.crt /etc/ssl/certs/jenkins.crt
+COPY ssl/jenkins.key /etc/ssl/private/jenkins.key
+COPY config/nginx.conf /etc/nginx/sites-available/default
+
+# Expose HTTPS port
+EXPOSE {{ setting.https_port }}
+EXPOSE 50000
+
+# Start both Jenkins and nginx
+CMD service nginx start && /usr/local/bin/jenkins.sh
